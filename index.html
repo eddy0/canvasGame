@@ -9,7 +9,8 @@
 </head>
 
 <body>
-    <canvas id='id-canvas' width="400" height="300" style="margin-left: 50px;"></canvas>
+    <canvas id='id-canvas-main' width="400" height="300" style="margin-left: 50px; position: absolute"></canvas>
+    <canvas id='id-canvas-bg' width="400" height="300" style="margin-left: 50px;"></canvas>
     <!-- <img src="./static/ball.png" alt="">
     <img src="./static/paddle.png" alt="">
     <img src="./static/block.png" alt=""> -->
@@ -18,35 +19,103 @@
         const log = console.log.bind(console)
 
         const e = sel => document.querySelector(sel)
+
+        const imageFromPath = function(path) {
+            var image = new Image()
+            image.src = path
+            return image
+        }
+        
         const Paddle = function () {
-            image.src = 'static/paddle.png'
-            let x = 150
-            let y = 150
-            image.onload = function () {
-                ctx.drawImage(image, x, y, image.width, image.height)
+            this.image = imageFromPath('static/paddle.png')
+            this.x = 150
+            this.y = 150
+            this.speed = 5
+        }
+
+        Paddle.prototype.moveLeft = function() {
+            this.x += this.speed
+        }
+
+        Paddle.prototype.moveRight = function() {
+            this.x -= this.speed
+        }
+        
+        const Game = function () {
+            let canvas = e('#id-canvas-main')
+            let ctx = canvas.getContext('2d')
+
+            let g = {
+                keydowns: {},
+                actions: {}
             }
+            
+            g.drawImage = function(item) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height)
+                ctx.drawImage(item.image, item.x, item.y)
+            }
+
+            
+            window.addEventListener('keydown', (event) => {
+                let k = event.key
+                g.keydowns[k] = true
+            })
+            
+            window.addEventListener('keyup', (event) => {
+                let k = event.key
+                g.keydowns[k] = false
+            })
+    
+            g.on = function(key, callback) {
+               g.actions[key] = callback
+            }
+
+            // ctx.clearRect(0, 0, canvas.width, canvas.height)
+            // ctx.drawImage(image, x, y, image.width, image.height)
+
+            setInterval(() => {
+               Object.keys(g.keydowns).map((key) => {
+                   if (g.keydowns[key] === true) {
+                       g.actions[key]()
+                   }
+               })
+                g.update()
+                g.draw()
+            }, 1000/30)
+
+            return g
         }
 
         const __main = () => {
-            let canvas = e('#id-canvas')
-            let ctx = canvas.getContext('2d')
-            ctx.fillStyle = '#f6f6f6'
-            ctx.fillRect(0, 0, canvas.width, canvas.height)
-
+            let bg = e('#id-canvas-bg')
+            let canvas = e('#id-canvas-main')
+            let context = bg.getContext('2d')
+            context.fillStyle = '#f6f6f6'
+            context.fillRect(0, 0, canvas.width, canvas.height)
+            
+      
             let paddle = new Paddle()
-            let image = new Image()
-
-
-            window.addEventListener('keydown', (event) => {
-                if (event.key === 'a') {
-                    x += 10
-                }
-                if (event.key === 'd') {
-                    x -= 10
-                }
-                ctx.clearRect(0, 0, canvas.width, canvas.height)
-                ctx.drawImage(image, x, y, image.width, image.height)
+           
+            let game = new Game()
+            
+            game.on('a', () => {
+                paddle.moveLeft()
             })
+            game.on('d', () => {
+                paddle.moveRight()
+            })
+            game.on('f', () => {
+            
+            })
+            
+            game.update = function() {
+            }
+            
+            game.draw = function() {
+                game.drawImage(paddle)
+            }
+            
+
         }
 
         __main()
