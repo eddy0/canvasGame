@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>game</title>
+</head>
+
+<body>
+    <canvas id='id-canvas' width="400" height="300" style="margin-left: 50px;"></canvas>
+    <!-- <img src="./static/ball.png" alt="">
+    <img src="./static/paddle.png" alt="">
+    <img src="./static/block.png" alt=""> -->
+
+    <script>
+        const log = console.log.bind(console)
+
+        const e = sel => document.querySelector(sel)
+        const Paddle = function () {
+            image.src = 'static/paddle.png'
+            let x = 150
+            let y = 150
+            image.onload = function () {
+                ctx.drawImage(image, x, y, image.width, image.height)
+            }
+        }
+
+        const __main = () => {
+            let canvas = e('#id-canvas')
+            let ctx = canvas.getContext('2d')
+            ctx.fillStyle = '#f6f6f6'
+            ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+            let paddle = new Paddle()
+            let image = new Image()
+
+
+            window.addEventListener('keydown', (event) => {
+                if (event.key === 'a') {
+                    x += 10
+                }
+                if (event.key === 'd') {
+                    x -= 10
+                }
+                ctx.clearRect(0, 0, canvas.width, canvas.height)
+                ctx.drawImage(image, x, y, image.width, image.height)
+            })
+        }
+
+        __main()
+    </script>
+</body>
+
+</html>
