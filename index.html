@@ -14,18 +14,16 @@
     <!-- <img src="./static/ball.png" alt="">
     <img src="./static/paddle.png" alt="">
     <img src="./static/block.png" alt=""> -->
-
+    <script src="utils.js"></script>
+    <script src="game.js"></script>
     <script>
-        const log = console.log.bind(console)
 
-        const e = sel => document.querySelector(sel)
-
-        const imageFromPath = function(path) {
+        const imageFromPath = function (path) {
             var image = new Image()
             image.src = path
             return image
         }
-        
+
         const Paddle = function () {
             this.image = imageFromPath('static/paddle.png')
             this.x = 150
@@ -33,14 +31,37 @@
             this.speed = 5
         }
 
-        Paddle.prototype.moveLeft = function() {
+        Paddle.prototype.moveLeft = function () {
+            this.x -= this.speed
+        }
+
+        Paddle.prototype.moveRight = function () {
             this.x += this.speed
         }
 
-        Paddle.prototype.moveRight = function() {
-            this.x -= this.speed
+        const Ball = function () {
+            this.image = imageFromPath('static/ball.png')
+            this.x = 100
+            this.y = 100
+            this.speedX = 10
+            this.speedY = 10
+            this.fired = false
         }
-        
+
+        Ball.prototype.move = function () {
+            if (this.fired) {
+                log('firel')
+
+                this.x += this.speedX
+                this.y += this.speedY
+            }
+        }
+
+        Ball.prototype.fire = function () {
+            log(this.fired)
+            this.fired === true ? false : true
+        }
+
         const Game = function () {
             let canvas = e('#id-canvas-main')
             let ctx = canvas.getContext('2d')
@@ -49,55 +70,60 @@
                 keydowns: {},
                 actions: {}
             }
-            
-            g.drawImage = function(item) {
-                ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+            g.drawImage = function (item) {
                 ctx.drawImage(item.image, item.x, item.y)
             }
 
-            
+
             window.addEventListener('keydown', (event) => {
                 let k = event.key
-                g.keydowns[k] = true
+                if (g.keydowns[k] !== undefined) {
+                    g.keydowns[k] = true
+                }
             })
-            
+
             window.addEventListener('keyup', (event) => {
                 let k = event.key
-                g.keydowns[k] = false
+                if (g.keydowns[k]) {
+                    g.keydowns[k] = false
+                }
             })
-    
-            g.on = function(key, callback) {
-               g.actions[key] = callback
+
+            g.on = function (key, callback) {
+                g.keydowns[key] = false
+                g.actions[key] = callback
             }
 
-            // ctx.clearRect(0, 0, canvas.width, canvas.height)
-            // ctx.drawImage(image, x, y, image.width, image.height)
-
             setInterval(() => {
-               Object.keys(g.keydowns).map((key) => {
-                   if (g.keydowns[key] === true) {
-                       g.actions[key]()
-                   }
-               })
+                Object.keys(g.keydowns).map((key) => {
+                    if (g.keydowns[key] === true) {
+                        g.actions[key]()
+                    }
+                })
+                ctx.clearRect(0, 0, canvas.width, canvas.height)
                 g.update()
                 g.draw()
-            }, 1000/30)
+            }, 1000 / 30)
 
             return g
         }
 
-        const __main = () => {
+        const renderBg = function () {
             let bg = e('#id-canvas-bg')
-            let canvas = e('#id-canvas-main')
             let context = bg.getContext('2d')
             context.fillStyle = '#f6f6f6'
-            context.fillRect(0, 0, canvas.width, canvas.height)
-            
-      
+            context.fillRect(0, 0, bg.width, bg.height)
+        }
+
+        const __main = () => {
+            renderBg()
             let paddle = new Paddle()
-           
+            let ball = new Ball()
+
             let game = new Game()
-            
+            log(game)
+
             game.on('a', () => {
                 paddle.moveLeft()
             })
@@ -105,16 +131,18 @@
                 paddle.moveRight()
             })
             game.on('f', () => {
-            
+                ball.fire()
             })
-            
-            game.update = function() {
+
+            game.update = function () {
+                ball.move()
             }
-            
-            game.draw = function() {
+
+            game.draw = function () {
                 game.drawImage(paddle)
+                game.drawImage(ball)
             }
-            
+
 
         }
 
