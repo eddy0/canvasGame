@@ -11,99 +11,40 @@
 <body>
     <canvas id='id-canvas-main' width="400" height="300" style="margin-left: 50px; position: absolute"></canvas>
     <canvas id='id-canvas-bg' width="400" height="300" style="margin-left: 50px;"></canvas>
+    <div>
+        <input id="id-input-speed" type="range" min='1' max='60'>
+    </div>
     <!-- <img src="./static/ball.png" alt="">
     <img src="./static/paddle.png" alt="">
     <img src="./static/block.png" alt=""> -->
     <script src="utils.js"></script>
     <script src="game.js"></script>
+    <script src="bg.js"></script>
+    <script src="block.js"></script>
+    <script src="paddle.js"></script>
+    <script src="ball.js"></script>
+    <script src="main.js"></script>
     <script>
+        const enableDebug = function () {
 
+            window.addEventListener('keydown', (event) => {
+                if (event.key === 'p') {
+
+                }
+            })
+            let input = e('#id-input-speed')
+            input.addEventListener('input', (event) => {
+                let val = input.value
+                log(val)
+                window.fps = Number(val)
+            })
+        }
         const imageFromPath = function (path) {
             var image = new Image()
             image.src = path
             return image
         }
 
-        const Paddle = function () {
-            this.image = imageFromPath('static/paddle.png')
-            this.x = 100
-            this.y = 200
-            this.speed = 5
-        }
-
-        Paddle.prototype.moveLeft = function () {
-            this.x -= this.speed
-        }
-
-        Paddle.prototype.moveRight = function () {
-            this.x += this.speed
-        }
-
-        const Ball = function () {
-            this.image = imageFromPath('static/ball.png')
-            this.x = 100
-            this.y = 100
-            this.speedX = 10
-            this.speedY = 10
-            this.fired = false
-        }
-
-        Ball.prototype.move = function () {
-            if (this.fired) {
-                log('firel')
-
-                this.x += this.speedX
-                this.y += this.speedY
-            }
-        }
-
-        Ball.prototype.fire = function () {
-            log(this.fired)
-            this.fired === true ? false : true
-        }
-
-
-        const renderBg = function () {
-            let bg = e('#id-canvas-bg')
-            let context = bg.getContext('2d')
-            context.fillStyle = '#f6f6f6'
-            context.fillRect(0, 0, bg.width, bg.height)
-        }
-
-        const __main = () => {
-            const images = {
-                ball: 'static/ball.png',
-                block: 'static/block.png',
-                paddle: 'static/paddle.png',
-            }
-
-            renderBg()
-            let paddle = new Paddle()
-            let ball = new Ball()
-
-            let game = new Game()
-
-            game.on('a', () => {
-                paddle.moveLeft()
-            })
-            game.on('d', () => {
-                paddle.moveRight()
-            })
-            game.on('f', () => {
-                ball.fire()
-            })
-
-            game.update = function () {
-                ball.move()
-            }
-
-            game.draw = function () {
-                game.drawImage(paddle)
-                game.drawImage(ball)
-            }
-
-
-        }
 
         __main()
     </script>

@@ -1,14 +1,17 @@
 const Game = function() {
-    let canvas = e('#id-canvas-main')
-    let ctx = canvas.getContext('2d')
+    window.fps = 30
 
     let g = {
         keydowns: {},
         actions: {},
     }
 
+    g.canvas = e('#id-canvas-main')
+
+    g.ctx = g.canvas.getContext('2d')
+
     g.drawImage = function(item) {
-        ctx.drawImage(item.image, item.x, item.y)
+        g.ctx.drawImage(item.image, item.x, item.y)
     }
 
     window.addEventListener('keydown', (event) => {
@@ -25,21 +28,35 @@ const Game = function() {
         }
     })
 
-    g.on = function(key, callback) {
-        g.keydowns[key] = false
-        g.actions[key] = callback
+    g.fire = function(key) {
+        g.actions[key]()
     }
 
-    setInterval(() => {
-        Object.keys(g.keydowns).map((key) => {
+    g.register = function(map) {
+        Object.keys(map).map((key) => {
+            g.keydowns[key] = false
+            g.actions[key] = map[key]
+        })
+    }
+
+    g.start = () => {}
+
+    g.run = () => {
+        Object.keys(g.actions).map((key) => {
             if (g.keydowns[key] === true) {
-                g.actions[key]()
+                g.fire(key)
             }
         })
-        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        g.ctx.clearRect(0, 0, g.canvas.width, g.canvas.height)
         g.update()
         g.draw()
-    }, 1000 / 30)
+        setTimeout(() => {
+            g.run()
+        }, 1000 / window.fps)
+    }
+    setTimeout(() => {
+        g.run()
+    }, 1000 / window.fps)
 
     return g
 }
