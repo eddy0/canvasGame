@@ -25,7 +25,7 @@ const __main = () => {
             images[name] = img
         })
         let game = new Game(images, (g) => {
-            let s = new SceneStart(g)
+            let s = SceneStart.create(g)
             return s
         })
     })

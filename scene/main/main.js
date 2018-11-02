@@ -1,6 +1,6 @@
-class Scene {
+class SceneMain extends Scene {
     constructor(game) {
-        this.game = game
+        super(game)
         this.ball = new Ball(game)
         this.paddle = new Paddle(game)
         this.block = new Block(game)

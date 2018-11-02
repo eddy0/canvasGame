@@ -1,6 +1,6 @@
-class End {
+class End extends Scene {
     constructor(game) {
-        this.game = game
+        super(game)
     }
 
     init() {

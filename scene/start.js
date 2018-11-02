@@ -1,6 +1,6 @@
-class SceneStart {
+class SceneStart extends Scene {
     constructor(game) {
-        this.game = game
+        super(game)
         this.ball = new Ball(game)
         this.paddle = new Paddle(game)
         this.block = new Block(game)
@@ -9,7 +9,7 @@ class SceneStart {
     init() {
         this.game.register({
             s: () => {
-                let s = new Scene(this.game)
+                let s = new SceneMain(this.game)
                 this.game.replaceScene(s)
             },
         })
