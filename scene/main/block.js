@@ -1,7 +1,9 @@
 const loadLevel = () => {}
 
-const Block = function() {
-    this.image = imageFromPath('static/block.png')
+const Block = function(game) {
+    this.name = this.constructor.name.toLowerCase()
+    this.game = game
+    this.image = this.game.images[this.name]
     this.x = 10
     this.y = 20
     this.life = 2
@@ -9,7 +11,6 @@ const Block = function() {
 }
 
 Block.prototype.kill = function() {
-    console.log('xx')
     if (this.life <= 0) {
         this.alive = false
         return

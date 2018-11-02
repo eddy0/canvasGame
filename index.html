@@ -17,35 +17,19 @@
     <!-- <img src="./static/ball.png" alt="">
     <img src="./static/paddle.png" alt="">
     <img src="./static/block.png" alt=""> -->
-    <script src="utils.js"></script>
-    <script src="scene/scene.js"></script>
-    <script src="game.js"></script>
-    <script src="bg.js"></script>
-    <script src="block.js"></script>
-    <script src="paddle.js"></script>
-    <script src="ball.js"></script>
-    <script src="main.js"></script>
+    <script src="utils/utils.js"></script>
+    <script src="utils/debug.js"></script>
+    <script src="utils/levels.js"></script>
+    <script src="game/game.js"></script>
+    <script src="scene/bg.js"></script>
+    <script src="scene/start.js"></script>
+    <script src="scene/main/ball.js"></script>
+    <script src="scene/main/block.js"></script>
+    <script src="scene/main/paddle.js"></script>
+    <script src="scene/main/main.js"></script>
+    <script src="scene/end.js"></script>
+    <script src="index.js"></script>
     <script>
-        const enableDebug = function () {
-
-            window.addEventListener('keydown', (event) => {
-                if (event.key === 'p') {
-
-                }
-            })
-            let input = e('#id-input-speed')
-            input.addEventListener('input', (event) => {
-                let val = input.value
-                log(val)
-                window.fps = Number(val)
-            })
-        }
-        const imageFromPath = function (path) {
-            var image = new Image()
-            image.src = path
-            return image
-        }
-
 
         __main()
     </script>

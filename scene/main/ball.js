@@ -1,5 +1,7 @@
-const Ball = function() {
-    this.image = imageFromPath('static/ball.png')
+const Ball = function(game) {
+    this.name = this.constructor.name.toLowerCase()
+    this.game = game
+    this.image = this.game.images[this.name]
     this.x = 100
     this.y = 100
     this.speedX = 5

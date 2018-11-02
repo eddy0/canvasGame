@@ -1,14 +1,13 @@
 class Scene {
     constructor(game) {
         this.game = game
-        this.ball = new Ball()
-        this.paddle = new Paddle()
-        this.block = new Block()
-        this.init()
+        this.ball = new Ball(game)
+        this.paddle = new Paddle(game)
+        this.block = new Block(game)
     }
 
     init() {
-        this.game.register({
+        let keymap = {
             a: () => {
                 this.paddle.moveLeft()
             },
@@ -18,7 +17,8 @@ class Scene {
             f: () => {
                 this.ball.fire()
             },
-        })
+        }
+        this.game.register(keymap)
     }
 
     draw() {
@@ -31,6 +31,11 @@ class Scene {
     }
 
     update() {
+        if (this.ball.y > this.paddle.y) {
+            let s = new End(this.game)
+            this.game.replaceScene(s)
+            return
+        }
         this.ball.move()
         let collide = isCollide(this.ball, this.paddle)
         if (collide) {

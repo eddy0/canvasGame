@@ -1,4 +1,4 @@
-const Game = function(callback) {
+const Game = function(images, callback) {
     window.fps = 30
 
     let g = {
@@ -6,6 +6,8 @@ const Game = function(callback) {
         keydowns: {},
         actions: {},
     }
+
+    g.images = images
 
     g.canvas = e('#id-canvas-main')
 
@@ -42,17 +44,22 @@ const Game = function(callback) {
 
     g.update = function() {
         if (g.scene !== null) {
-            g.scene.update()
+            g.scene.update && g.scene.update()
         }
     }
 
     g.draw = function() {
         if (g.scene !== null) {
-            g.scene.draw()
+            g.scene.draw && g.scene.draw()
         }
     }
 
-    g.start = () => {}
+    g.replaceScene = function(scene) {
+        g.actions = {}
+        g.keydowns = {}
+        g.scene = scene
+        g.scene.init()
+    }
 
     g.run = () => {
         Object.keys(g.actions).map((key) => {
@@ -70,6 +77,7 @@ const Game = function(callback) {
 
     setTimeout(() => {
         g.scene = callback(g)
+        g.scene.init()
         g.run()
     }, 1000 / window.fps)
 
