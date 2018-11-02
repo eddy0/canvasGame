@@ -1,10 +1,14 @@
 const loadImage = (images) => {
     if (window.images === undefined) {
         let o = {}
-        Object.keys(images).map((name) => {
-            let image = new Image()
-            image.src = images[name]
-            o[name] = image
+        let p = new Promise((res) => {
+            Object.keys(images).map((name) => {
+                let image = new Image()
+                image.src = images[name]
+                image.onload = () => {
+                    res(image)
+                }
+            })
         })
         window.images = o
     }
@@ -18,6 +22,7 @@ const __main = () => {
         paddle: 'static/paddle.png',
     }
     loadImage(images)
+
     renderBg()
 
     let paddle = new Paddle()
@@ -27,18 +32,9 @@ const __main = () => {
     let block = new Block()
     ball.enablepause()
 
-    let game = new Game()
-
-    game.register({
-        a: () => {
-            paddle.moveLeft()
-        },
-        d: () => {
-            paddle.moveRight()
-        },
-        f: () => {
-            ball.fire()
-        },
+    let game = new Game((g) => {
+        let s = new Scene(g)
+        return s
     })
 
     let dragable
@@ -67,25 +63,4 @@ const __main = () => {
     window.addEventListener('mouseup', () => {
         dragable = false
     })
-
-    game.update = function() {
-        ball.move()
-        let collide = isCollide(ball, paddle)
-        if (collide) {
-            ball.reverse()
-        }
-        if (block.collide(ball) && block.alive) {
-            block.kill()
-            ball.reverse()
-        }
-    }
-
-    game.draw = function() {
-        game.drawImage(paddle)
-        game.drawImage(ball)
-        if (block.alive) {
-            game.drawImage(block)
-        }
-        game.ctx.fillText('score', 10, 10)
-    }
 }

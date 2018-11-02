@@ -1,7 +1,8 @@
-const Game = function() {
+const Game = function(callback) {
     window.fps = 30
 
     let g = {
+        scene: null,
         keydowns: {},
         actions: {},
     }
@@ -39,6 +40,18 @@ const Game = function() {
         })
     }
 
+    g.update = function() {
+        if (g.scene !== null) {
+            g.scene.update()
+        }
+    }
+
+    g.draw = function() {
+        if (g.scene !== null) {
+            g.scene.draw()
+        }
+    }
+
     g.start = () => {}
 
     g.run = () => {
@@ -54,7 +67,9 @@ const Game = function() {
             g.run()
         }, 1000 / window.fps)
     }
+
     setTimeout(() => {
+        g.scene = callback(g)
         g.run()
     }, 1000 / window.fps)
 
