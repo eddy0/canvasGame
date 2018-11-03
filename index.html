@@ -14,6 +14,12 @@
     <div>
         <input id="id-input-speed" type="range" min='1' max='60'>
     </div>
+    <div>
+        <select id="id-selector">
+            <option value="normal">normal</option>
+            <option value="edit">edit</option>
+        </select>
+    </div>
     <!-- <img src="./static/ball.png" alt="">
     <img src="./static/paddle.png" alt="">
     <img src="./static/block.png" alt=""> -->
@@ -29,9 +35,13 @@
     <script src="scene/main/paddle.js"></script>
     <script src="scene/main/main.js"></script>
     <script src="scene/end.js"></script>
+    <script src="scene/editor.js"></script>
     <script src="index.js"></script>
     <script>
-
+        let selector = e('#id-selector')
+        window.addEventListener('change', (event) => {
+            log(selector.value)
+        })
         __main()
     </script>
 </body>

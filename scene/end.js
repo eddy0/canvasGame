@@ -9,6 +9,10 @@ class End extends Scene {
                 let s = new SceneStart(this.game)
                 this.game.replaceScene(s)
             },
+            e: () => {
+                let s = new Editor(this.game)
+                this.game.replaceScene(s)
+            },
         })
     }
 
