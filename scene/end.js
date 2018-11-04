@@ -17,6 +17,6 @@ class End extends Scene {
     }
 
     draw() {
-        this.game.ctx.fillText('end', 100, 100)
+        this.game.ctx.fillText('game over', 100, 100)
     }
 }

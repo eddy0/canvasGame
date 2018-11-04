@@ -29,10 +29,4 @@ const __main = () => {
             return s
         })
     })
-
-    // let paddle = new Paddle()
-    // let ball = new Ball()
-    // let blocks = []
-
-    // let block = new Block()
 }
