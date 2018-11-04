@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>game</title>
+    <style>
+
+        #id-debug {
+            padding: 21px; 
+            font-size: 20px; 
+            background: lightblue; 
+            border: 0; 
+            outline: 0; 
+        }
+        #id-debug.debug {
+            background:coral;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id='id-canvas-main' width="400" height="300" style="margin-left: 50px; position: absolute"></canvas>
+    <canvas id='id-canvas-bg' width="400" height="300" style="margin-left: 50px;"></canvas>
+    <div>
+        <input id="id-input-speed" type="range" min='1' max='60'>
+        <span class="speed-visual"></span>
+    </div>
+    <div id="id-editor">
+
+    </div>
+    <div>
+        <button id="id-debug">
+            debug mode
+        </button>
+    </div>
+
+    <script src="utils/utils.js"></script>
+    <!-- <script src="utils/debug.js"></script> -->
+    <script src="utils/levels.js"></script>
+    <script src="game/game.js"></script>
+    <script src="game/img.js"></script>
+    <script src="scene/bg.js"></script>
+    <script src="scene/scene.js"></script>
+    <script src="scene/start.js"></script>
+    <script src="scene/main/ball.js"></script>
+    <script src="scene/main/block.js"></script>
+    <script src="scene/main/paddle.js"></script>
+    <script src="scene/main/main.js"></script>
+    <script src="scene/end.js"></script>
+    <script src="scene/editor.js"></script>
+    <script src="index.js"></script>
+    <script>
+        let button = e('#id-debug')
+        button.addEventListener('click', (event) => {
+            button.classList.toggle('debug')
+            window.enableDebug = !window.enableDebug
+        })
+        __main()
+    </script>
+</body>
+
+</html>
