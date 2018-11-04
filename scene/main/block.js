@@ -1,5 +1,4 @@
 const loadLevel = () => {}
-
 const Block = function(game) {
     this.name = this.constructor.name.toLowerCase()
     this.game = game

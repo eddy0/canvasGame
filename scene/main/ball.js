@@ -36,3 +36,7 @@ Ball.prototype.enablepause = function() {
         }
     })
 }
+
+Ball.prototype.collide = function(a) {
+    return isCollide(this, a)
+}

@@ -1,16 +1,15 @@
-const enableDebug = function() {
-    if (!window.debug) {
-        return
-    }
-
+const enableDebug = function(ball) {
     window.addEventListener('keydown', (event) => {
         if (event.key === 'p') {
+            ball.fired = false
         }
     })
     let input = e('#id-input-speed')
     input.addEventListener('input', (event) => {
         let val = input.value
         window.fps = Number(val)
+        let visual = e('.speed-visual')
+        visual.innerText = val
     })
 
     let dragable

@@ -1,5 +1,5 @@
 class SceneMain extends Scene {
-    constructor(game, level = 1) {
+    constructor(game, level = 0) {
         super(game)
         this.ball = new Ball(this.game)
         this.paddle = new Paddle(this.game)
@@ -31,27 +31,21 @@ class SceneMain extends Scene {
     }
 
     drawBlock() {
-        this.blocks.map((block, index) => {
-            if (!block.alive) {
-                this.blocks.splice(1, index)
-
-                log('alive', block)
-            }
-            if (block.collide(this.ball) && block.alive) {
-                block.kill()
-                log('block', block.alive, block)
-                this.ball.reverse()
-                this.score += 100
-                return
-            } else {
+        for (let i = 0; i < this.blocks.length; i++) {
+            let block = this.blocks[i]
+            if (block.alive) {
                 this.game.drawImage(block)
             }
-        })
+        }
     }
 
     draw() {
+        // if (window.enableDebug) {
+        //     enableDebug(this.ball)
+        // }
         this.game.drawImage(this.paddle)
         this.game.drawImage(this.ball)
+        this.drawBlock()
         this.game.ctx.fillText('score: ' + this.score, 10, 10)
     }
 
@@ -62,21 +56,26 @@ class SceneMain extends Scene {
             return
         }
         if (this.blocks.length < 1) {
-            this.level += 1
-            log(this.level)
-            let s = new SceneMain(this.game, this.level)
+            this.currentLevel += 1
+            let s = new SceneMain(this.game, this.currentLevel)
+            log(s)
             this.game.replaceScene(s)
             return
         }
-        this.drawBlock()
         this.ball.move()
         let collide = isCollide(this.ball, this.paddle)
         if (collide) {
             this.ball.reverse()
         }
-        // if (this.block.collide(this.ball) && this.block.alive) {
-        //     this.block.kill()
-        //     this.ball.reverse()
-        // }
+
+        for (let i = 0; i < this.blocks.length; i++) {
+            let block = this.blocks[i]
+            if (this.ball.collide(block) && block.alive) {
+                block.kill()
+                this.ball.reverse()
+                this.score += 100
+                this.blocks.splice(i, 1)
+            }
+        }
     }
 }

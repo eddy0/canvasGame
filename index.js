@@ -14,7 +14,6 @@ const loadImages = () => {
 }
 
 const __main = () => {
-    enableDebug()
     renderBg()
     let imgs = loadImages()
 
