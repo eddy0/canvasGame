@@ -19,3 +19,9 @@ class Player extends Img {
         super(game)
     }
 }
+
+class Bg extends Img {
+    constructor(game) {
+        super(game)
+    }
+}

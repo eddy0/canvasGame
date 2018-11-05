@@ -13,6 +13,7 @@ const loadImages = (images) => {
 }
 
 const __main = () => {
+    renderBg()
     let imgs = loadImages(images)
 
     Promise.all(imgs).then((result) => {
