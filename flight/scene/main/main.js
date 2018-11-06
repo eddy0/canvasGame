@@ -1,19 +1,49 @@
 class SceneMain extends Scene {
-    constructor(game, level = 0) {
+    constructor(game) {
         super(game)
         this.bg = new Bg(this.game)
-        log(this.bg.w)
+        this.player = new Player(this.game)
+        this.player.x = 200
+        this.player.y = 580
     }
 
-    init() {}
-
-    draw() {
-        this.game.drawImage(this.bg)
+    init() {
+        this.add(this.bg)
+        this.add(this.player)
+        for (let i = 0; i < 10; i++) {
+            let enemy = new Enemy(this.game, 'enemy1')
+            this.add(enemy)
+        }
+        this.keymap()
+        log(this.elements)
     }
+
+    keymap() {
+        let keymap = {
+            a: () => {
+                this.player.moveLeft()
+            },
+            d: () => {
+                this.player.moveRight()
+            },
+            w: () => {
+                this.player.moveUp()
+            },
+            s: () => {
+                this.player.moveDown()
+            },
+            f: () => {
+                this.player.fire()
+            },
+        }
+        this.game.register(keymap)
+    }
+
     update() {
+        super.update()
         this.bg.y += 3
-        if (this.bg.y > this.bg.h) {
-            this.bg.y = -this.bg.h
+        if (this.bg.y > this.bg.height) {
+            this.bg.y = -this.bg.height
         }
     }
 }

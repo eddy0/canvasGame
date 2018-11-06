@@ -1,12 +1,17 @@
+const config = {
+    player_speed: 10,
+    bullet_interval: 3,
+}
+
 class Img {
-    constructor(game) {
+    constructor(game, name) {
         this.game = game
-        this.name = this.constructor.name.toLowerCase()
+        this.name = name || this.constructor.name.toLowerCase()
         this.image = this.game.images[this.name]
         this.x = 0
         this.y = 0
-        this.w = this.image.width
-        this.h = this.image.height
+        this.width = this.image.width
+        this.height = this.image.height
     }
 
     draw() {}
@@ -15,13 +20,77 @@ class Img {
 }
 
 class Player extends Img {
-    constructor(game) {
-        super(game)
+    constructor(game, name) {
+        super(game, name)
+        this.speed = 10
+        this.interval = 3
+    }
+    moveLeft() {
+        this.x -= this.speed
+    }
+    moveRight() {
+        this.x += this.speed
+    }
+    moveUp() {
+        this.y -= this.speed
+    }
+    moveDown() {
+        this.y += this.speed
+    }
+    fire() {
+        if (this.interval === 0) {
+            this.interval = config['bullet_interval']
+            let bullet = new Bullet(this.game)
+            bullet.x = this.x + this.width / 2
+            bullet.y = this.y - 10
+            this.game.scene.add(bullet)
+        }
+    }
+    update() {
+        this.speed = config['player_speed']
+        if (this.interval > 0) {
+            this.interval--
+        }
     }
 }
 
 class Bg extends Img {
+    constructor(game, name) {
+        super(game, name)
+    }
+}
+
+class Enemy extends Img {
+    constructor(game, name) {
+        super(game, name)
+        this.setup()
+    }
+
+    setup() {
+        this.x = random(0, 300)
+        this.y = random(-200, 0)
+        this.speed = random(2, 5)
+    }
+
+    update() {
+        this.y += this.speed
+        if (this.y > 800) {
+            this.setup()
+        }
+    }
+}
+
+class Bullet extends Img {
     constructor(game) {
-        super(game)
+        super(game, 'bullet')
+        this.type = 'bullet'
+        this.setup()
+    }
+
+    setup() {
+        this.speed = 5
+    }
+    update() {
+        this.y -= this.speed
     }
 }

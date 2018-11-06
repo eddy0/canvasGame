@@ -1,7 +1,11 @@
 const images = {
     bg: 'img/background.png',
     player: 'img/me1.png',
+    bullet: 'img/bullet1.png',
     enemy1: 'img/enemy1.png',
+    enemy1_down1: 'img/enemy1_down1.png',
+    enemy2: 'img/enemy2.png',
+    enemy3: 'img/enemy3.png',
 }
 
 const loadImages = (images) => {
@@ -23,7 +27,7 @@ const __main = () => {
             images[name] = img
         })
         let game = Game.singleton(30, images, (g) => {
-            let s = SceneStart.create(g)
+            let s = SceneMain.create(g)
             return s
         })
     })

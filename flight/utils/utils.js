@@ -20,3 +20,7 @@ function isCollide(a, b) {
         a.x > b.x + b.image.width
     )
 }
+
+const random = function(start, end) {
+    return Math.floor(start + Math.random() * (end - start + 1))
+}
