@@ -3,17 +3,18 @@ class SceneMain extends Scene {
         super(game)
         this.bg = new Bg(this.game)
         this.player = new Player(this.game)
+        this.particle = new ParticleSystem(this.game)
         this.player.x = 200
         this.player.y = 580
     }
 
     init() {
-        this.add(this.bg)
-        this.add(this.player)
-        for (let i = 0; i < 10; i++) {
-            let enemy = new Enemy(this.game, 'enemy1')
-            this.add(enemy)
-        }
+        // this.add(this.bg)
+        // this.add(this.player)
+        // for (let i = 0; i < 10; i++) {
+        //     let enemy = new Enemy(this.game, 'enemy1')
+        //     this.add(enemy)
+        // }
         this.keymap()
         log(this.elements)
     }
@@ -38,9 +39,13 @@ class SceneMain extends Scene {
         }
         this.game.register(keymap)
     }
-
+    draw() {
+        super.draw()
+        this.particle.draw()
+    }
     update() {
         super.update()
+        this.particle.update()
         this.bg.y += 3
         if (this.bg.y > this.bg.height) {
             this.bg.y = -this.bg.height

@@ -4,6 +4,7 @@ const images = {
     bullet: 'img/bullet1.png',
     enemy1: 'img/enemy1.png',
     enemy1_down1: 'img/enemy1_down1.png',
+    enemy1_down3: 'img/enemy1_down3.png',
     enemy2: 'img/enemy2.png',
     enemy3: 'img/enemy3.png',
 }
