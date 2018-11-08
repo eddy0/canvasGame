@@ -1,6 +1,7 @@
 class ParticleSystem {
     constructor(game) {
         this.game = game
+        this.type = 'particleSystem'
         this.setup()
     }
 
@@ -9,19 +10,19 @@ class ParticleSystem {
         this.y = 100
         this.number = 20
         this.particles = []
+        this.interval = 10
     }
 
     draw() {
         this.particles.map((p, index) => {
-            if (p.life > 0) {
+            if (this.interval > 0) {
                 p.draw()
-            } else {
-                this.particles.splice(index, 1)
             }
         })
     }
 
     update() {
+        this.interval--
         if (this.particles.length < this.number) {
             let p = new Particle(this.game)
             let vx = random(-5, 5)

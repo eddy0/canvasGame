@@ -18,6 +18,10 @@ class Scene {
 
     draw() {
         this.elements.map((element) => {
+            if (element.type === 'particleSystem') {
+                element.draw()
+                return
+            }
             this.game.drawImage(element)
         })
     }
@@ -25,6 +29,19 @@ class Scene {
     recycle(element, index) {
         if (element.type === 'bullet' && element.y < 10) {
             this.elements.splice(index, 1)
+        }
+        if (element.type === 'bullet') {
+            this.elements.map((e, i) => {
+                if (e.type === 'enemy' && isCollide(element, e)) {
+                    let particles = new ParticleSystem(this.game)
+                    particles.x = e.x
+                    particles.y = e.y
+                    this.add(particles)
+                    this.elements = this.elements.filter(
+                        (ele) => ele !== element && ele !== e
+                    )
+                }
+            })
         }
     }
 

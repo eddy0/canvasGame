@@ -63,6 +63,7 @@ class Bg extends Img {
 class Enemy extends Img {
     constructor(game, name) {
         super(game, name)
+        this.type = 'enemy'
         this.setup()
     }
 
