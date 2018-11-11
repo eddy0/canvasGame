@@ -7,6 +7,12 @@ const images = {
     enemy1_down3: 'img/enemy1_down3.png',
     enemy2: 'img/enemy2.png',
     enemy3: 'img/enemy3.png',
+    w0: 'img/walk/w0.png',
+    w1: 'img/walk/w1.png',
+    w2: 'img/walk/w2.png',
+    w3: 'img/walk/w3.png',
+    w4: 'img/walk/w4.png',
+    w5: 'img/walk/w5.png',
 }
 
 const loadImages = (images) => {
@@ -28,7 +34,7 @@ const __main = () => {
             images[name] = img
         })
         let game = Game.singleton(30, images, (g) => {
-            let s = SceneMain.create(g)
+            let s = SceneStart.create(g)
             return s
         })
     })

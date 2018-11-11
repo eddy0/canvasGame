@@ -14,7 +14,9 @@ class Img {
         this.height = this.image.height
     }
 
-    draw() {}
+    draw() {
+        this.game.drawImage(this)
+    }
 
     update() {}
 }

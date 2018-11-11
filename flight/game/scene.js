@@ -13,16 +13,13 @@ class Scene {
     }
 
     add(element) {
+        element.scene = this
         this.elements.push(element)
     }
 
     draw() {
         this.elements.map((element) => {
-            if (element.type === 'particleSystem') {
-                element.draw()
-                return
-            }
-            this.game.drawImage(element)
+            element.draw()
         })
     }
 
