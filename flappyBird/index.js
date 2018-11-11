@@ -1,12 +1,10 @@
 const images = {
-    bg: 'img/background.png',
-    w0: 'img/walk/w0.png',
-    w1: 'img/walk/w1.png',
-    w2: 'img/walk/w2.png',
-    w3: 'img/walk/w3.png',
-    w4: 'img/walk/w4.png',
-    w5: 'img/walk/w5.png',
-    // stand
+    bg: 'img/bg.png',
+    ground: 'img/ground.png',
+    b1: 'img/b1.png',
+    b2: 'img/b2.png',
+    b3: 'img/b3.png',
+    b4: 'img/b4.png',
 }
 
 const loadImages = (images) => {

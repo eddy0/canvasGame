@@ -7,9 +7,13 @@ class SceneStart extends Scene {
     }
 
     init() {
-        let s = new Animation(this.game)
-        this.add(s)
+        this.player = new Animation(this.game)
+        this.add(this.player)
         this.game.register({
+            d: () => {
+                log(this.player)
+                this.player.moveLeft()
+            },
             s: () => {
                 let s = new SceneMain(this.game)
                 this.game.replaceScene(s)
