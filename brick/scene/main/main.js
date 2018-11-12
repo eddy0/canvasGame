@@ -1,8 +1,8 @@
 class SceneMain extends Scene {
-    constructor(game, level = 0) {
+    constructor(game, level = 0, score = 0) {
         super(game)
         this.currentLevel = level
-        this.score = 0
+        this.score = score
         this.interval = 30
         this.init()
         this.debug(this.ball)
@@ -47,7 +47,7 @@ class SceneMain extends Scene {
 
     gameover() {
         if (this.ball.y > this.game.canvas.height) {
-            let s = new End(this.game)
+            let s = new End(this.game, this.currentLevel, this.score)
             this.game.replaceScene(s)
             return
         }
@@ -55,8 +55,14 @@ class SceneMain extends Scene {
 
     nextStage() {
         if (this.blocks.blocks.length < 1) {
+            let s
             this.currentLevel += 1
-            let s = new SceneMain(this.game, this.currentLevel)
+            log(this.currentLevel)
+            if (this.currentLevel === loadLevels.length) {
+                s = new End(this.game, this.currentLevel, this.score)
+            } else {
+                s = new SceneMain(this.game, this.currentLevel, this.score)
+            }
             this.game.replaceScene(s)
             return
         }
@@ -95,10 +101,14 @@ class SceneMain extends Scene {
 
         this.blocks.blocks.map((block) => {
             if (this.ball.collide(block)) {
-                log('collide')
                 block.kill()
-                this.ball.reverse()
                 this.score += 100
+                let hitSide = this.ball.collideSide(block)
+                if (hitSide) {
+                    this.ball.redirect()
+                } else {
+                    this.ball.reverse()
+                }
             }
         })
 

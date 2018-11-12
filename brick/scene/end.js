@@ -1,6 +1,8 @@
 class End extends Scene {
-    constructor(game) {
+    constructor(game, level, score) {
         super(game)
+        this.level = level
+        this.score = score
     }
 
     __keybind() {
@@ -19,6 +21,8 @@ class End extends Scene {
 
     draw() {
         this.game.ctx.font = '16px sans-serif'
-        this.game.ctx.fillText('game over\n 按 r 重新开始', 100, 100)
+        this.game.ctx.fillText('game over\r 按 r 重新开始', 100, 100)
+        this.game.ctx.fillText(`your level: ${this.level}`, 100, 120)
+        this.game.ctx.fillText(`your score: ${this.score}`, 100, 140)
     }
 }

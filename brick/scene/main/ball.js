@@ -33,11 +33,16 @@ class Ball extends Img {
         this.speedX = 5
     }
 
+    redirect() {
+        this.directionY = -1 * this.directionY
+        this.directionX = -1 * this.directionX
+    }
+
     reverse() {
         this.directionY = -1 * this.directionY
     }
 
-    collidSide(element) {
+    collideSide(element) {
         return element.y < this.y && element.y + element.h > this.y + this.h
     }
 

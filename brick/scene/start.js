@@ -10,6 +10,10 @@ class SceneStart extends Scene {
                 let s = new SceneMain(this.game)
                 this.game.replaceScene(s)
             },
+            e: () => {
+                let s = new SceneEdit(this.game)
+                this.game.replaceScene(s)
+            },
         })
     }
 
@@ -29,6 +33,7 @@ class SceneStart extends Scene {
         super.draw()
         this.game.ctx.font = '20px sans-serif'
         this.game.ctx.fillText('按 s 开始游戏', 100, 100)
+        this.game.ctx.fillText('按 e 编辑关卡', 100, 120)
     }
 
     update() {
