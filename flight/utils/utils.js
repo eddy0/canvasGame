@@ -13,11 +13,8 @@ const imageFromPath = function(name, path) {
 }
 
 function isCollide(a, b) {
-    return !(
-        a.y + a.image.height < b.y ||
-        a.y > b.y + b.image.height ||
-        a.x + a.image.width < b.x ||
-        a.x > b.x + b.image.width
+    return (
+        a.y + a.h > b.y && b.y + b.h > a.y && a.x + a.w > b.x && b.x + b.w > b.x
     )
 }
 

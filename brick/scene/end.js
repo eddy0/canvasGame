@@ -17,6 +17,7 @@ class End extends Scene {
     }
 
     draw() {
-        this.game.ctx.fillText('game over', 100, 100)
+        this.game.ctx.font = '16px sans-serif'
+        this.game.ctx.fillText('game over\n 按 s 重新开始', 100, 100)
     }
 }
