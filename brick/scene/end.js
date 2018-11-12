@@ -3,7 +3,7 @@ class End extends Scene {
         super(game)
     }
 
-    init() {
+    __keybind() {
         this.game.register({
             r: () => {
                 let s = new SceneStart(this.game)
@@ -14,10 +14,11 @@ class End extends Scene {
                 this.game.replaceScene(s)
             },
         })
+        log(this)
     }
 
     draw() {
         this.game.ctx.font = '16px sans-serif'
-        this.game.ctx.fillText('game over\n 按 s 重新开始', 100, 100)
+        this.game.ctx.fillText('game over\n 按 r 重新开始', 100, 100)
     }
 }

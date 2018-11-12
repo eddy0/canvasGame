@@ -5,6 +5,7 @@ const images = {
 }
 
 const __main = () => {
+    enableDebug()
     let game = Game.singleton(30, images, (g) => {
         let s = SceneMain.create(g)
         return s

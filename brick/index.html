@@ -6,8 +6,16 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
         <title>game</title>
         <style>
-            #id-canvas-main {
+            .canvas-wrapper {
+                margin: 0 auto;
+                max-width: 1000px;
+                height: 400px;
+            }
+            .canvas-wrapper canvas {
                 box-sizing: border-box;
+                left: 50%;
+                position: absolute;
+                transform: translate(-50%);
                 border: 1px solid #000;
             }
             #id-debug {
@@ -20,31 +28,51 @@
             #id-debug.debug {
                 background: coral;
             }
+
+            .debug-box {
+                display: none;
+            }
+            .debug-box.debug {
+                display: block;
+            }
         </style>
     </head>
 
     <body>
-        <canvas
-            id="id-canvas-main"
-            width="400"
-            height="300"
-            style="margin-left: 50px; position: absolute"
-        ></canvas>
-        <canvas
-            id="id-canvas-bg"
-            width="400"
-            height="300"
-            style="margin-left: 50px;"
-        ></canvas>
-        <div>
-            <input id="id-input-speed" type="range" min="1" max="60" />
-            <span class="speed-visual"></span>
+        <div class="canvas-wrapper">
+            <canvas id="id-canvas-main" width="400" height="300"></canvas>
+
+            <!--
+                <canvas id="id-canvas-bg" width="400" height="300"></canvas>
+            -->
         </div>
-        <div id="id-editor"></div>
         <div><button id="id-debug">debug mode</button></div>
+        <ul class="debug-box">
+            <li class="debug-item">
+                <span>fps</span>
+                <input id="id-fps" type="range" min="0" max="60" />
+                <span class="value"></span>
+            </li>
+            <li class="debug-item">
+                <span>ball_speedX</span>
+                <input id="id-ball-speedX" type="range" min="0" max="20" />
+                <span class="value"></span>
+            </li>
+            <li class="debug-item">
+                <span>ball_speedY</span>
+                <input id="id-ball-speedY" type="range" min="0" max="20" />
+                <span class="value"></span>
+            </li>
+            <li class="debug-item">
+                <span>paddle-speed</span>
+                <input id="id-paddle-speed" type="range" min="0" max="20" />
+                <span class="value"></span>
+            </li>
+        </ul>
+        <div id="id-editor"></div>
 
         <script src="utils/utils.js"></script>
-        <!-- <script src="utils/debug.js"></script> -->
+        <script src="utils/debug.js"></script>
         <script src="utils/levels.js"></script>
         <!-- game -->
         <script src="game/game.js"></script>
@@ -61,11 +89,6 @@
         <script src="scene/editor.js"></script>
         <script src="index.js"></script>
         <script>
-            let button = e('#id-debug')
-            button.addEventListener('click', (event) => {
-                button.classList.toggle('debug')
-                window.enableDebug = !window.enableDebug
-            })
             __main()
         </script>
     </body>

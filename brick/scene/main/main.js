@@ -5,6 +5,8 @@ class SceneMain extends Scene {
         this.score = 0
         this.interval = 30
         this.init()
+        this.debug(this.ball)
+        this.debug(this.paddle)
     }
 
     __keybind() {
@@ -24,12 +26,11 @@ class SceneMain extends Scene {
 
     init() {
         this.ball = new Ball(this.game)
-        this.ball.x = 100
-        this.ball.y = 100
+        this.ball.x = 180
+        this.ball.y = 240
         this.add(this.ball)
         this.paddle = new Paddle(this.game)
-        this.paddle.x = 100
-        this.paddle.y = 200
+
         this.add(this.paddle)
         this.blocks = new Blocks(this.game, this.currentLevel)
         this.add(this.blocks)
@@ -40,10 +41,6 @@ class SceneMain extends Scene {
             this.interval--
             this.game.ctx.fillText(`第 ${this.currentLevel + 1} 关`, 100, 100)
         }
-        // if (window.enableDebug) {
-        //     enableDebug(this.ball)
-        // }
-
         super.draw()
         this.game.ctx.fillText('score: ' + this.score, 10, 300)
     }
@@ -57,7 +54,7 @@ class SceneMain extends Scene {
     }
 
     nextStage() {
-        if (this.blocks.length < 1) {
+        if (this.blocks.blocks.length < 1) {
             this.currentLevel += 1
             let s = new SceneMain(this.game, this.currentLevel)
             this.game.replaceScene(s)
@@ -84,6 +81,12 @@ class SceneMain extends Scene {
     }
 
     update() {
+        if (window.enableDebug) {
+            for (let e of this.elements) {
+                e.debug && e.debug()
+            }
+        }
+
         this.gameover()
         this.nextStage()
 
@@ -98,17 +101,47 @@ class SceneMain extends Scene {
                 this.score += 100
             }
         })
-        // for (let i = 0; i < this.blocks.blocks.length; i++) {
-        //     let block = this.blocks[i]
-        //     log(block)
-        //     if (this.ball.collide(block)) {
-        //         log('collide')
-        //         block.kill()
-        //         this.ball.reverse()
-        //         this.score += 100
-        //     }
-        // }
 
         super.update()
+    }
+
+    debug(ball) {
+        window.addEventListener('keydown', (event) => {
+            if (event.key === 'p' && window.enableDebug) {
+                this.ball.fired = false
+            }
+        })
+
+        let dragable
+        window.addEventListener('mousedown', (event) => {
+            let x = event.offsetX
+            let y = event.offsetY
+            if (
+                x < ball.x + ball.w &&
+                x > ball.x &&
+                y < ball.y + ball.h &&
+                y > ball.y
+            ) {
+                dragable = true
+            }
+        })
+
+        window.addEventListener('mousemove', (event) => {
+            if (
+                dragable === true &&
+                event.target === this.game.canvas &&
+                window.enableDebug
+            ) {
+                let x = event.offsetX
+                let y = event.offsetY
+                log(x, y)
+                ball.x = x
+                ball.y = y
+            }
+        })
+
+        window.addEventListener('mouseup', () => {
+            dragable = false
+        })
     }
 }

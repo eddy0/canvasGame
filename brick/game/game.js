@@ -62,12 +62,6 @@ class Game {
         return imgs
     }
 
-    // imageByName(name) {
-    //     log(this.game)
-    //     let img = this.game.images[name]
-    //     return img
-    // }
-
     __init() {
         let imgs = this.loadImages(this.images)
         Promise.all(imgs)
@@ -103,6 +97,10 @@ class Game {
     }
 
     update() {
+        // debug
+        if (window.enableDebug) {
+            this.fps = config.fps
+        }
         if (this.scene !== null) {
             this.scene.update && this.scene.update()
         }

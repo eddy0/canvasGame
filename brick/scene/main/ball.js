@@ -37,8 +37,17 @@ class Ball extends Img {
         this.directionY = -1 * this.directionY
     }
 
+    collidSide(element) {
+        return element.y < this.y && element.y + element.h > this.y + this.h
+    }
+
     collide(a) {
         return isCollide(this, a)
+    }
+
+    debug() {
+        this.speedX = config['ball-speedX']
+        this.speedY = config['ball-speedY']
     }
 
     animate() {

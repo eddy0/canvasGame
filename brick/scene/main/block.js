@@ -1,7 +1,6 @@
 class Blocks {
     constructor(game, level) {
         this.game = game
-        log(loadLevels[level])
         this.blocks = loadLevels[level].map((p) => {
             log(p)
             let block = new Block(this.game)
@@ -10,7 +9,6 @@ class Blocks {
             block.life = p[2]
             return block
         })
-        log(this)
     }
 
     draw() {
@@ -42,7 +40,6 @@ class Block extends Img {
         this.life--
         if (this.life < 1) {
             this.alive = false
-            log('block', this)
             return
         }
     }

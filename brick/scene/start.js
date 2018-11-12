@@ -30,6 +30,7 @@ class SceneStart extends Scene {
         this.game.ctx.font = '20px sans-serif'
         this.game.ctx.fillText('按 s 开始游戏', 100, 100)
     }
+
     update() {
         super.update()
         this.ball.animate()
