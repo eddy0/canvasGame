@@ -2,7 +2,20 @@ class SceneEdit extends Scene {
     constructor(game) {
         super(game)
         this.blocks = []
+        this.interval = 10
         this.init()
+    }
+
+    __keybind() {
+        this.game.register({
+            u: () => {
+                if (this.interval < 0) {
+                    this.interval = 10
+                    this.blocks.pop()
+                    this.updateDiv()
+                }
+            },
+        })
     }
 
     init() {
@@ -43,6 +56,9 @@ class SceneEdit extends Scene {
     }
 
     update() {
+        if (this.interval > -1) {
+            this.interval--
+        }
         this.blocks.map((block) => {
             this.game.drawImage(block)
         })
@@ -50,5 +66,6 @@ class SceneEdit extends Scene {
 
     draw() {
         this.game.ctx.fillText('Edit mode', 100, 100)
+        this.game.ctx.fillText('按 u 撤销', 100, 130)
     }
 }
