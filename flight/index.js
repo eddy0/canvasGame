@@ -28,7 +28,7 @@ const __main = () => {
             images[name] = img
         })
         let game = Game.singleton(30, images, (g) => {
-            let s = SceneStart.create(g)
+            let s = SceneMain.create(g)
             return s
         })
     })
