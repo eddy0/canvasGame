@@ -1,17 +1,12 @@
 class SceneStart extends Scene {
     constructor(game) {
         super(game)
-        // this.ball = new Ball(game)
-        // this.paddle = new Paddle(game)
-        // this.block = new Block(game)
+        this.init()
     }
 
-    init() {
-        this.player = new Animation(this.game)
-        this.add(this.player)
+    __keybind() {
         this.game.register({
             d: () => {
-                log(this.player)
                 this.player.moveLeft()
             },
             s: () => {
@@ -21,8 +16,21 @@ class SceneStart extends Scene {
         })
     }
 
+    init() {
+        this.player = new Player(this.game)
+        this.player.x = 150
+        this.player.y = 400
+        this.add(this.player)
+    }
+
+    update() {
+        this.player.fire()
+        super.update()
+    }
+
     draw() {
         super.draw()
-        // this.game.ctx.fillText('按 s 开始游戏', 100, 100)
+        this.game.ctx.font = '20px sans-serif'
+        this.game.ctx.fillText('按 s 开始游戏', 100, 100)
     }
 }

@@ -3,8 +3,8 @@ class Player extends Img {
         super(game, name)
         this.type = 'player'
         this.speed = 10
-        this.interval = 3
-        this.life = Infinity
+        this.interval = 5
+        this.life = 10
         this.alive = true
     }
 
@@ -42,7 +42,7 @@ class Player extends Img {
 
     fire() {
         if (this.interval === 0) {
-            this.interval = 3
+            this.interval = 5
             if (window.enableDebug) {
                 this.interval = config['fire_interval']
             }
@@ -53,11 +53,12 @@ class Player extends Img {
         }
     }
     update() {
-        if (window.enableDebug) {
-            this.speed = config['player_speed']
-        }
         if (this.interval > 0) {
             this.interval--
         }
+    }
+
+    debug() {
+        this.life = config['player_life']
     }
 }

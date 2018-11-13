@@ -1,6 +1,7 @@
 class SceneMain extends Scene {
     constructor(game) {
         super(game)
+        this.score = 0
         this.init()
     }
 
@@ -43,22 +44,35 @@ class SceneMain extends Scene {
             this.addEnemy()
         }
     }
+    gameover() {
+        if (this.player.alive === false) {
+            let s = new End(this.game, this.score)
+            this.game.replaceScene(s)
+            return
+        }
+    }
 
     draw() {
+        this.game.ctx.fillText('score: ' + this.score, 10, 20)
+
+        this.gameover()
+
+        super.draw()
+    }
+
+    update() {
         for (let e of this.elements) {
             if (e.alive === false) {
                 this.game.scene.elements = this.game.scene.elements.filter(
                     (element) => element !== e
                 )
                 if (e.type === 'enemy') {
+                    this.score += 100
                     this.addEnemy()
                 }
             }
         }
-        super.draw()
-    }
 
-    update() {
         super.update()
     }
 }

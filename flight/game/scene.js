@@ -28,7 +28,12 @@ class Scene {
         if (window.pause) {
             return
         }
+
         for (let e of this.elements) {
+            // debug
+            if (window.enableDebug) {
+                e.debug && e.debug()
+            }
             e.update()
         }
     }

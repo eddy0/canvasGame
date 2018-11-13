@@ -1,8 +1,11 @@
 const config = {
+    fps: 30,
     player_speed: 10,
+    player_life: 3,
     fire_interval: 3,
     bullet_speed: 5,
-    fps: 30,
+    enemy_life: 1,
+    enemy_speed: 2,
 }
 
 const loadTemplate = (name, value) => {
