@@ -2,106 +2,81 @@ class SceneMain extends Scene {
     constructor(game) {
         super(game)
         this.score = 0
+        this.setup()
+        this.start = false
+        this.over = false
+        this.interval = 60
+        this.hint = 30
         this.init()
     }
 
     __keybind() {
         let keymap = {
-            a: () => {
-                this.player.moveLeft()
-            },
-            d: () => {
-                this.player.moveRight()
-            },
             w: () => {
-                this.player.moveUp()
-            },
-            s: () => {
-                this.player.moveDown()
-            },
-            f: () => {
-                this.player.fire()
+                if (this.start === false) {
+                    this.start = true
+                }
+                this.bird.jump()
             },
         }
         this.game.register(keymap)
     }
 
-    addEnemy() {
-        let type = random(1, 2)
-        let name = 'enemy' + type
-        let e = new Enemy(this.game, name)
-        e.life = type
-        this.add(e)
-    }
-
     init() {
-        this.bg = new Bg(this.game)
-        this.player = new Player(this.game)
-        this.player.x = 200
-        this.player.y = 580
-        this.add(this.player)
-        this.NumberOfEnemy = 10
-        for (let i = 0; i < this.NumberOfEnemy; i++) {
-            this.addEnemy()
-        }
+        this.pipe = new Pipe(this.game)
+        this.add(this.pipe)
+        // ground 需要挡住柱子
+        this.ground = new Ground(this.game)
+        this.add(this.ground)
     }
 
     gameover() {
-        if (this.player.alive === false) {
+        if (this.over === true) {
             let s = new End(this.game, this.score)
             this.game.replaceScene(s)
             return
         }
     }
 
+    checkDeath() {
+        this.pipe.pipes.map((p) => {
+            let [up, down] = p
+            if (isCollide(this.bird, up) || isCollide(this.bird, down)) {
+                this.over = true
+            }
+        })
+    }
+
+    updateScore() {
+        this.interval--
+        if (this.interval === 0) {
+            this.interval = 60
+            this.score += 100
+        }
+    }
+
     draw() {
-        this.bg.draw()
-        this.game.ctx.fillText('score: ' + this.score, 10, 20)
-
-        this.gameover()
-
         super.draw()
+        // hint
+        if (this.hint > 0) {
+            this.game.ctx.fillText('按 w 飞行 ', 50, 50)
+        }
+
+        this.game.ctx.fillText('score: ' + this.score, 10, 20)
     }
 
     update() {
-        this.bg.update()
-
-        for (let e of this.elements) {
-            if (e.alive === false) {
-                this.game.scene.elements = this.game.scene.elements.filter(
-                    (element) => element !== e
-                )
-                if (e.type === 'enemy') {
-                    this.score += 100
-                    this.addEnemy()
-                }
-            }
+        super.update()
+        // start
+        this.hint--
+        if (this.start === false && this.bird.y > 150 && this.bird.y < 160) {
+            this.bird.jump()
         }
 
-        super.update()
+        this.gameover()
+
+        this.checkDeath()
+
+        this.updateScore()
     }
 }
-
-// init() {
-//     // this.add(this.bg)
-//     this.add(this.player)
-//     for (let i = 0; i < 10; i++) {
-//         let enemy = new Enemy(this.game, 'enemy1')
-//         this.add(enemy)
-//     }
-//     log(this.elements)
-// }
-
-// draw() {
-//     super.draw()
-//     // this.particle.draw()
-// }
-// update() {
-//     super.update()
-//     // this.particle.update()
-//     this.bg.y += 3
-//     if (this.bg.y > this.bg.height) {
-//         this.bg.y = -this.bg.height
-//     }
-// }
-// }

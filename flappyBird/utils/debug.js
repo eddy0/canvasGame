@@ -1,12 +1,12 @@
 const config = {
     fps: { value: 30, max: 60 },
-    player_speed: { value: 10, max: 60 },
-    player_life: { value: 3, max: 10000 },
-    fire_interval: { value: 5, max: 60 },
-    bullet_speed: { value: 13, max: 60 },
+    // player_speed: { value: 10, max: 60 },
+    // player_life: { value: 3, max: 10000 },
+    // fire_interval: { value: 5, max: 60 },
+    // bullet_speed: { value: 13, max: 60 },
     // enemy_life: { value: 2, max: 10 },
-    enemy_speed: { value: 3, max: 20 },
-    bg_speed: { value: 3, max: 10 },
+    // enemy_speed: { value: 3, max: 20 },
+    // bg_speed: { value: 3, max: 10 },
 }
 
 const loadTemplate = (name, value) => {

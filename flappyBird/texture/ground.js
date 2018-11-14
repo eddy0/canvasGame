@@ -9,7 +9,7 @@ class Ground {
     init() {
         for (let i = 0; i < 15; i++) {
             let g = new Img(this.game, 'ground')
-            g.y = 360
+            g.y = 370
             g.x = i * g.w
             this.grounds.push(g)
         }

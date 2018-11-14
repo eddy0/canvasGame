@@ -14,6 +14,22 @@ class Scene {
         return this.i
     }
 
+    setup() {
+        // bg
+        let bg = new Img(this.game, 'bg')
+        this.add(bg)
+        // ground
+
+        this.ground = new Ground(this.game)
+        this.add(this.ground)
+
+        // bird
+        this.bird = new Animation(this.game)
+        this.bird.x = this.game.canvas.width / 2 - 50
+        this.bird.y = 150
+        this.add(this.bird)
+    }
+
     add(element) {
         this.elements.push(element)
     }

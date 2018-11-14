@@ -1,7 +1,7 @@
 class SceneStart extends Scene {
     constructor(game) {
         super(game)
-        this.init()
+        this.setup()
     }
 
     __keybind() {
@@ -14,23 +14,6 @@ class SceneStart extends Scene {
                 this.game.replaceScene(s)
             },
         })
-    }
-
-    init() {
-        // bg
-        let bg = new Img(this.game, 'bg')
-        this.add(bg)
-        // ground
-
-        this.ground = new Ground(this.game)
-        this.add(this.ground)
-        log(this.ground)
-
-        // bird
-        this.bird = new Animation(this.game)
-        this.bird.x = this.game.canvas.width / 2 - 50
-        this.bird.y = 150
-        this.add(this.bird)
     }
 
     update() {
