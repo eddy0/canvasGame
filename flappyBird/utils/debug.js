@@ -1,41 +1,65 @@
-const enableDebug = function(ball) {
-    window.addEventListener('keydown', (event) => {
-        if (event.key === 'p') {
-            ball.fired = false
-        }
+const config = {
+    fps: { value: 30, max: 60 },
+    player_speed: { value: 10, max: 60 },
+    player_life: { value: 3, max: 10000 },
+    fire_interval: { value: 5, max: 60 },
+    bullet_speed: { value: 13, max: 60 },
+    // enemy_life: { value: 2, max: 10 },
+    enemy_speed: { value: 3, max: 20 },
+    bg_speed: { value: 3, max: 10 },
+}
+
+const loadTemplate = (name, value) => {
+    let t = `
+        <li class="debug-item">
+        <span>${name}</span>
+        <input id=id-${name} type="range" min="0" max=${value.max} 
+        value=${value.value} />
+        <span class="value">${value.value}</span>
+    </li>
+    `
+    return t
+}
+
+const createDebugList = (config) => {
+    let box = e('.debug-box')
+    Object.keys(config).map((key) => {
+        let val = config[key]
+        box.insertAdjacentHTML('beforeend', loadTemplate(key, val))
     })
-    let input = e('#id-input-speed')
-    input.addEventListener('input', (event) => {
-        let val = input.value
-        window.fps = Number(val)
-        let visual = e('.speed-visual')
-        visual.innerText = val
+}
+
+const enableDebug = function() {
+    window.enableDebug = false
+    let box = e('.debug-box')
+    let button = e('#id-debug')
+    let pause = e('#id-button-pause')
+
+    pause.addEventListener('click', (event) => {
+        pause.classList.toggle('pause')
+        window.pause = !window.pause
     })
 
-    let dragable
-    window.addEventListener('mousedown', (event) => {
-        let x = event.offsetX
-        let y = event.offsetY
-        if (
-            x < ball.x + ball.image.width &&
-            x > ball.x &&
-            y < ball.y + ball.image.height &&
-            y > ball.y
-        ) {
-            dragable = true
+    button.addEventListener('click', (event) => {
+        button.classList.toggle('debug')
+        box.classList.toggle('debug')
+        window.enableDebug = !window.enableDebug
+        if (box.childElementCount === 0) {
+            createDebugList(config)
         }
     })
 
-    window.addEventListener('mousemove', (event) => {
-        if (dragable === true) {
-            let x = event.offsetX
-            let y = event.offsetY
-            ball.x = x
-            ball.y = y
+    box.addEventListener('input', (event) => {
+        let self = event.target
+        let id = self.id.slice(3)
+        let key = config[id]
+        let val = self.value
+        if (key !== undefined) {
+            config[id].value = Number(val)
+            log(config)
         }
-    })
-
-    window.addEventListener('mouseup', () => {
-        dragable = false
+        let p = event.target.parentElement
+        let content = p.querySelector('.value')
+        content.innerHTML = val
     })
 }

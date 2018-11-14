@@ -4,6 +4,8 @@ class Scene {
         this.elements = []
     }
 
+    __keybind() {}
+
     // 单例
     static create(...args) {
         if (this.i === undefined) {
@@ -13,41 +15,26 @@ class Scene {
     }
 
     add(element) {
-        element.scene = this
         this.elements.push(element)
     }
 
     draw() {
-        this.elements.map((element) => {
-            element.draw()
-        })
-    }
-
-    recycle(element, index) {
-        if (element.type === 'bullet' && element.y < 10) {
-            this.elements.splice(index, 1)
-        }
-        if (element.type === 'bullet') {
-            this.elements.map((e, i) => {
-                if (e.type === 'enemy' && isCollide(element, e)) {
-                    let particles = new ParticleSystem(this.game)
-                    particles.x = e.x
-                    particles.y = e.y
-                    this.add(particles)
-                    this.elements = this.elements.filter(
-                        (ele) => ele !== element && ele !== e
-                    )
-                }
-            })
+        for (let e of this.elements) {
+            e.draw()
         }
     }
 
     update() {
-        this.elements.map((element, i) => {
-            if (element.update) {
-                this.recycle(element, i)
-                element.update()
+        if (window.pause) {
+            return
+        }
+
+        for (let e of this.elements) {
+            e.update()
+            // debug
+            if (window.enableDebug) {
+                e.debug && e.debug()
             }
-        })
+        }
     }
 }

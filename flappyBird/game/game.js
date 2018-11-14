@@ -3,19 +3,8 @@ class Game {
         this.fps = fps
         this.images = images
         this.callback = callback
-        this.__config.bind(this)
-        this.__init.bind(this)
-        this.__start.bind(this)
-        this.fire.bind(this)
-        this.register.bind(this)
-        this.update.bind(this)
-        this.draw.bind(this)
-        this.drawImage.bind(this)
-        this.replaceScene.bind(this)
-        this.run.bind(this)
         this.__config()
         this.__init()
-        this.__start()
     }
 
     static singleton(...args) {
@@ -36,51 +25,79 @@ class Game {
             this[name] = schema[name]
         })
         this.ctx = this.canvas.getContext('2d')
+        this.__setup()
     }
 
-    __init() {
+    __setup() {
         window.addEventListener('keydown', (event) => {
             let k = event.key
             if (this.keydowns[k] !== undefined) {
-                this.keydowns[k] = true
+                this.keydowns[k] = 'down'
             }
         })
 
         window.addEventListener('keyup', (event) => {
             let k = event.key
             if (this.keydowns[k]) {
-                this.keydowns[k] = false
+                this.keydowns[k] = 'up'
             }
         })
+    }
+
+    loadImages(images) {
+        let imgs = Object.keys(images).map((name) => {
+            let path = images[name]
+            return imageFromPath(name, path)
+        })
+        return imgs
+    }
+
+    __init() {
+        let imgs = this.loadImages(this.images)
+        Promise.all(imgs)
+            .then((result) => {
+                result.forEach((image) => {
+                    let [name, img] = image
+                    this.images[name] = img
+                })
+            })
+            .then(() => {
+                this.__start()
+            })
     }
 
     __start() {
         setTimeout(() => {
             this.scene = this.callback(this)
-            this.scene.init()
+            this.scene.__keybind()
             this.run()
         }, 1000 / this.fps)
     }
 
-    fire(key) {
-        this.actions[key]()
+    fire(key, status) {
+        this.actions[key](status)
     }
 
+    // todo: 这个尝试改成 return的时候把这个函数删除, 或者返回一个其他的状态
     register(map) {
         Object.keys(map).map((key) => {
-            this.keydowns[key] = false
+            this.keydowns[key] = 'up'
             this.actions[key] = map[key]
         })
     }
 
     update() {
+        // debug
+        if (window.enableDebug) {
+            this.fps = config['fps'].value
+        }
         if (this.scene !== null) {
             this.scene.update && this.scene.update()
         }
     }
 
-    drawImage(item) {
-        this.ctx.drawImage(item.image, item.x, item.y)
+    drawImage(image) {
+        this.ctx.drawImage(image.image, image.x, image.y)
     }
 
     draw() {
@@ -93,13 +110,14 @@ class Game {
         this.actions = {}
         this.keydowns = {}
         this.scene = scene
-        this.scene.init()
+        this.scene.__keybind()
     }
 
     run() {
         Object.keys(this.actions).map((key) => {
-            if (this.keydowns[key] === true) {
-                this.fire(key)
+            let status = this.keydowns[key]
+            if (status === 'down') {
+                this.fire(key, status)
             }
         })
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
@@ -110,92 +128,3 @@ class Game {
         }, 1000 / this.fps)
     }
 }
-
-/*
-
-const Game = function(images, callback) {
-    window.fps = 30
-
-    let g = {
-        scene: null,
-        keydowns: {},
-        actions: {},
-    }
-
-    g.images = images
-
-    g.canvas = e('#id-canvas-main')
-
-    g.ctx = g.canvas.getContext('2d')
-
-    g.drawImage = function(item) {
-        g.ctx.drawImage(item.image, item.x, item.y)
-    }
-
-    window.addEventListener('keydown', (event) => {
-        let k = event.key
-        if (g.keydowns[k] !== undefined) {
-            g.keydowns[k] = true
-        }
-    })
-
-    window.addEventListener('keyup', (event) => {
-        let k = event.key
-        if (g.keydowns[k]) {
-            g.keydowns[k] = false
-        }
-    })
-
-    g.fire = function(key) {
-        g.actions[key]()
-    }
-
-    g.register = function(map) {
-        Object.keys(map).map((key) => {
-            g.keydowns[key] = false
-            g.actions[key] = map[key]
-        })
-    }
-
-    g.update = function() {
-        if (g.scene !== null) {
-            g.scene.update && g.scene.update()
-        }
-    }
-
-    g.draw = function() {
-        if (g.scene !== null) {
-            g.scene.draw && g.scene.draw()
-        }
-    }
-
-    g.replaceScene = function(scene) {
-        g.actions = {}
-        g.keydowns = {}
-        g.scene = scene
-        g.scene.init()
-    }
-
-    g.run = () => {
-        Object.keys(g.actions).map((key) => {
-            if (g.keydowns[key] === true) {
-                g.fire(key)
-            }
-        })
-        g.ctx.clearRect(0, 0, g.canvas.width, g.canvas.height)
-        g.update()
-        g.draw()
-        setTimeout(() => {
-            g.run()
-        }, 1000 / window.fps)
-    }
-
-    setTimeout(() => {
-        g.scene = callback(g)
-        g.scene.init()
-        g.run()
-    }, 1000 / window.fps)
-
-    return g
-}
-*/

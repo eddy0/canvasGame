@@ -14,12 +14,18 @@ const imageFromPath = function(name, path) {
 
 function isCollide(a, b) {
     return !(
-        a.y + a.image.height < b.y ||
-        a.y > b.y + b.image.height ||
-        a.x + a.image.width < b.x ||
-        a.x > b.x + b.image.width
+        a.y + a.h < b.y ||
+        a.y > b.y + b.h ||
+        a.x + a.w < b.x ||
+        a.x > b.x + b.w
     )
 }
+
+// function isCollide(a, b) {
+//     return (
+//         a.y + a.h > b.y && b.y + b.h > a.y && a.x + a.w > b.x && b.x + b.w > b.x
+//     )
+// }
 
 const random = function(start, end) {
     return Math.floor(start + Math.random() * (end - start + 1))

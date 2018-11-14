@@ -6,7 +6,20 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
         <title>game</title>
         <style>
-            #id-debug {
+            .canvas-wrapper {
+                margin: 0 auto;
+                max-width: 1000px;
+                height: 700px;
+            }
+            .canvas-wrapper canvas {
+                box-sizing: border-box;
+                left: 50%;
+                position: absolute;
+                transform: translate(-50%);
+                border: 1px solid #000;
+            }
+            #id-debug,
+            button {
                 padding: 21px;
                 font-size: 20px;
                 background: lightblue;
@@ -16,79 +29,60 @@
             #id-debug.debug {
                 background: coral;
             }
+            .debug-box {
+                display: none;
+                margin-bottom: 50px;
+            }
+            .debug-box.debug {
+                display: block;
+            }
+            #id-button-pause {
+                background-color: lightblue;
+            }
+            #id-button-pause.pause {
+                background-color: coral;
+            }
         </style>
     </head>
 
     <body>
-        <canvas
-            id="id-canvas-main"
-            width="480"
-            height="700"
-            style="margin-left: 50px; position: absolute"
-        ></canvas>
-        <canvas
-            id="id-canvas-bg"
-            width="480"
-            height="700"
-            style="margin-left: 50px;"
-        ></canvas>
-        <div class="config">
-            <div>
-                bullet interval
-                <input
-                    id="id-input-interval"
-                    data-name="bullet_interval"
-                    value="3"
-                    type="range"
-                    min="1"
-                    max="20"
-                />
-                <span class="bullet_interval"></span>
-            </div>
-            <div>
-                player speed
-                <input
-                    id="id-input-player"
-                    type="range"
-                    data-name="player_speed"
-                    min="1"
-                    max="60"
-                    value="10"
-                />
-                <span class="player_speed"></span>
-            </div>
+        <div class="canvas-wrapper">
+            <canvas id="id-canvas-main" width="285" height="400"></canvas>
+            <!--
+                <canvas id="id-canvas-bg" width="400" height="650"></canvas>
+            -->
         </div>
+        <div>
+            <button id="id-debug">debug mode</button>
+            <button id="id-button-pause">debug pause</button>
+        </div>
+        <ul class="debug-box"></ul>
 
         <script src="utils/utils.js"></script>
-        <!-- <script src="utils/debug.js"></script> -->
-        <!-- <script src="utils/levels.js"></script> -->
+        <script src="utils/debug.js"></script>
+
+        <!-- game -->
         <script src="game/game.js"></script>
-        <script src="game/animation.js"></script>
-        <script src="game/particle.js"></script>
-        <script src="game/img.js"></script>
         <script src="game/scene.js"></script>
-        <script src="scene/bg.js"></script>
+        <script src="game/image.js"></script>
+        <script src="game/particle.js"></script>
+        <script src="game/animation.js"></script>
+        <!-- texture -->
+
+        <!-- <script src="texture/bg.js"></script> -->
+
+        <script src="texture/bird.js"></script>
+        <script src="texture/ground.js"></script>
+        <!-- <script src="texture/bullet.js"></script> -->
+        <!-- <script src="texture/particle.js"></script> -->
+
+        <!-- scene -->
         <script src="scene/start.js"></script>
-        <script src="scene/main/ball.js"></script>
-        <script src="scene/main/block.js"></script>
-        <script src="scene/main/paddle.js"></script>
-        <script src="scene/main/main.js"></script>
-        <script src="scene/end.js"></script>
+        <!--
+            <script src="scene/main.js"></script>
+            <script src="scene/end.js"></script>
+        -->
+        <!-- main -->
         <script src="index.js"></script>
-        <script>
-            let box = e('.config')
-            let element = ['player_speed', 'bullet_interval']
-            box.addEventListener('input', (event) => {
-                let target = event.target
-                let name = target.dataset.name
-                if (element.includes(name)) {
-                    let val = target.value
-                    config[name] = Number(val)
-                    let text = e(`.${name}`)
-                    text.innerText = val
-                }
-            })
-            __main()
-        </script>
     </body>
 </html>

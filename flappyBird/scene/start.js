@@ -1,25 +1,14 @@
 class SceneStart extends Scene {
     constructor(game) {
         super(game)
-        this.bg = new Bg(game)
-        // this.paddle = new Paddle(game)
-        // this.block = new Block(game)
-        this.groundArray = []
-        this.skip = 4
+        this.init()
     }
 
-    init() {
-        let s = new Animation(this.game)
-        this.add(this.bg)
-        this.add(s)
-        for (let i = 0; i < 30; i++) {
-            let g = new Img(this.game, 'ground')
-            g.x = i * 15
-            g.y = 350
-            this.add(g)
-            this.groundArray.push(g)
-        }
+    __keybind() {
         this.game.register({
+            w: () => {
+                this.bird.jump()
+            },
             s: () => {
                 let s = new SceneMain(this.game)
                 this.game.replaceScene(s)
@@ -27,21 +16,34 @@ class SceneStart extends Scene {
         })
     }
 
+    init() {
+        // bg
+        let bg = new Img(this.game, 'bg')
+        this.add(bg)
+        // ground
+
+        this.ground = new Ground(this.game)
+        this.add(this.ground)
+        log(this.ground)
+
+        // bird
+        this.bird = new Animation(this.game)
+        this.bird.x = this.game.canvas.width / 2 - 50
+        this.bird.y = 150
+        this.add(this.bird)
+    }
+
     update() {
         super.update()
-        this.skip--
-        let offset = -5
-        if (this.skip <= 0) {
-            offset = 15
-            this.skip = 4
+        if (this.bird.y > 100 && this.bird.y < 160) {
+            this.bird.jump()
         }
-        this.groundArray.map((ground) => {
-            ground.x += offset
-        })
     }
 
     draw() {
+        // this.bg.draw()
         super.draw()
-        // this.game.ctx.fillText('按 s 开始游戏', 100, 100)
+        this.game.ctx.font = '20px sans-serif'
+        this.game.ctx.fillText('按 s 开始游戏', 100, 100)
     }
 }
