@@ -54,7 +54,7 @@ class Enemy extends Img {
     }
 
     debug() {
-        this.life = config['enemy_life']
-        this.speed = config['enemy_speed']
+        // this.life = config['enemy_life'].value
+        this.speed = config['enemy_speed'].value
     }
 }

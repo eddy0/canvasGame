@@ -5,8 +5,8 @@ class SceneMain extends Scene {
         this.score = score
         this.interval = 30
         this.init()
-        // this.debug(this.ball)
-        // this.debug(this.paddle)
+        this.debug(this.ball)
+        this.debug(this.paddle)
     }
 
     __keybind() {

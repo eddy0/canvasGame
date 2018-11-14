@@ -30,11 +30,11 @@ class Scene {
         }
 
         for (let e of this.elements) {
+            e.update()
             // debug
             if (window.enableDebug) {
                 e.debug && e.debug()
             }
-            e.update()
         }
     }
 }

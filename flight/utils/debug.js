@@ -1,19 +1,21 @@
 const config = {
-    fps: 30,
-    player_speed: 10,
-    player_life: 3,
-    fire_interval: 3,
-    bullet_speed: 5,
-    enemy_life: 1,
-    enemy_speed: 2,
+    fps: { value: 30, max: 60 },
+    player_speed: { value: 10, max: 60 },
+    player_life: { value: 3, max: 10000 },
+    fire_interval: { value: 5, max: 60 },
+    bullet_speed: { value: 13, max: 60 },
+    // enemy_life: { value: 2, max: 10 },
+    enemy_speed: { value: 3, max: 20 },
+    bg_speed: { value: 3, max: 10 },
 }
 
 const loadTemplate = (name, value) => {
     let t = `
         <li class="debug-item">
         <span>${name}</span>
-        <input id=id-${name} type="range" min="0" max="60" value=${value}/>
-        <span class="value">${value}</span>
+        <input id=id-${name} type="range" min="0" max=${value.max} 
+        value=${value.value} />
+        <span class="value">${value.value}</span>
     </li>
     `
     return t
@@ -32,9 +34,9 @@ const enableDebug = function() {
     let box = e('.debug-box')
     let button = e('#id-debug')
     let pause = e('#id-button-pause')
-    createDebugList(config)
 
     pause.addEventListener('click', (event) => {
+        pause.classList.toggle('pause')
         window.pause = !window.pause
     })
 
@@ -42,6 +44,9 @@ const enableDebug = function() {
         button.classList.toggle('debug')
         box.classList.toggle('debug')
         window.enableDebug = !window.enableDebug
+        if (box.childElementCount === 0) {
+            createDebugList(config)
+        }
     })
 
     box.addEventListener('input', (event) => {
@@ -50,7 +55,7 @@ const enableDebug = function() {
         let key = config[id]
         let val = self.value
         if (key !== undefined) {
-            config[id] = Number(val)
+            config[id].value = Number(val)
             log(config)
         }
         let p = event.target.parentElement

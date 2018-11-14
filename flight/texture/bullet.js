@@ -31,6 +31,6 @@ class Bullet extends Img {
     }
 
     debug() {
-        this.speed = config['bullet_speed']
+        this.speed = config['bullet_speed'].value
     }
 }

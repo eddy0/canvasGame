@@ -35,6 +35,7 @@ class SceneMain extends Scene {
     }
 
     init() {
+        this.bg = new Bg(this.game)
         this.player = new Player(this.game)
         this.player.x = 200
         this.player.y = 580
@@ -44,6 +45,7 @@ class SceneMain extends Scene {
             this.addEnemy()
         }
     }
+
     gameover() {
         if (this.player.alive === false) {
             let s = new End(this.game, this.score)
@@ -53,6 +55,7 @@ class SceneMain extends Scene {
     }
 
     draw() {
+        this.bg.draw()
         this.game.ctx.fillText('score: ' + this.score, 10, 20)
 
         this.gameover()
@@ -61,6 +64,8 @@ class SceneMain extends Scene {
     }
 
     update() {
+        this.bg.update()
+
         for (let e of this.elements) {
             if (e.alive === false) {
                 this.game.scene.elements = this.game.scene.elements.filter(

@@ -21,14 +21,17 @@ class SceneStart extends Scene {
         this.player.x = 150
         this.player.y = 400
         this.add(this.player)
+        this.bg = new Bg(this.game)
     }
 
     update() {
+        this.bg.update()
         this.player.fire()
         super.update()
     }
 
     draw() {
+        this.bg.draw()
         super.draw()
         this.game.ctx.font = '20px sans-serif'
         this.game.ctx.fillText('按 s 开始游戏', 100, 100)

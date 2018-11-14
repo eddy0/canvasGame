@@ -29,12 +29,18 @@
             #id-debug.debug {
                 background: coral;
             }
-
             .debug-box {
                 display: none;
+                margin-bottom: 50px;
             }
             .debug-box.debug {
                 display: block;
+            }
+            #id-button-pause {
+                background-color: lightblue;
+            }
+            #id-button-pause.pause {
+                background-color: coral;
             }
         </style>
     </head>
@@ -42,10 +48,7 @@
     <body>
         <div class="canvas-wrapper">
             <canvas id="id-canvas-main" width="400" height="650"></canvas>
-
-            <!--
-                <canvas id="id-canvas-bg" width="400" height="300"></canvas>
-            -->
+            <canvas id="id-canvas-bg" width="400" height="650"></canvas>
         </div>
         <div>
             <button id="id-debug">debug mode</button>
@@ -86,6 +89,7 @@
         <script src="game/image.js"></script>
         <script src="game/particle.js"></script>
         <!-- texture -->
+        <script src="texture/bg.js"></script>
         <script src="texture/player.js"></script>
         <script src="texture/enemy.js"></script>
         <script src="texture/bullet.js"></script>

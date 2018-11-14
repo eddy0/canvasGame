@@ -89,7 +89,7 @@ class Game {
     update() {
         // debug
         if (window.enableDebug) {
-            this.fps = config.fps
+            this.fps = config['fps'].value
         }
         if (this.scene !== null) {
             this.scene.update && this.scene.update()

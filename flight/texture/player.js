@@ -4,6 +4,7 @@ class Player extends Img {
         this.type = 'player'
         this.speed = 10
         this.interval = 5
+        this.cooldown = this.interval
         this.life = 10
         this.alive = true
     }
@@ -41,11 +42,8 @@ class Player extends Img {
     }
 
     fire() {
-        if (this.interval === 0) {
-            this.interval = 5
-            if (window.enableDebug) {
-                this.interval = config['fire_interval']
-            }
+        if (this.cooldown === 0) {
+            this.cooldown = this.interval
             let bullet = new Bullet(this.game, 'bullet')
             bullet.x = this.x + this.w / 2
             bullet.y = this.y - 10
@@ -53,12 +51,14 @@ class Player extends Img {
         }
     }
     update() {
-        if (this.interval > 0) {
-            this.interval--
+        if (this.cooldown > 0) {
+            this.cooldown--
         }
     }
 
     debug() {
-        this.life = config['player_life']
+        this.life = config['player_life'].value
+        this.speed = config['player_speed'].value
+        this.interval = config['fire_interval'].value
     }
 }
