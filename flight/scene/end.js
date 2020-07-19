@@ -14,7 +14,7 @@ class End extends Scene {
     }
 
     draw() {
-        this.game.ctx.fillText(`得分: ${this.score}`, 100, 150)
-        this.game.ctx.fillText('game over, 按 r 重新开始', 100, 180)
+        this.game.ctx.fillText(`score: ${this.score}`, 100, 150)
+        this.game.ctx.fillText('game over, press r to restart ', 100, 180)
     }
 }

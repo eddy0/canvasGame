@@ -34,6 +34,6 @@ class SceneStart extends Scene {
         this.bg.draw()
         super.draw()
         this.game.ctx.font = '20px sans-serif'
-        this.game.ctx.fillText('按 s 开始游戏', 100, 100)
+        this.game.ctx.fillText('press s to start, press f to fire', 100, 100)
     }
 }
